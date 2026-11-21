@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phishing Awareness Training</title>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--text:#1b2433;--muted:#5b6780;--accent:#2563eb;--ok:#15803d;--bad:#b91c1c;--line:#dde3ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--card:#18223a;--text:#e8edf7;--muted:#9aa7c2;--accent:#6ea0ff;--ok:#4ade80;--bad:#f87171;--line:#2a3856}}
+:root[data-theme="dark"]{--bg:#0f1624;--card:#18223a;--text:#e8edf7;--muted:#9aa7c2;--accent:#6ea0ff;--ok:#4ade80;--bad:#f87171;--line:#2a3856}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:20px 16px 8px;max-width:720px;margin:auto}
+h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.2rem;margin:0 0 8px}
+.sub{color:var(--muted);margin:0}
+nav{display:flex;gap:6px;overflow-x:auto;padding:12px 16px;max-width:720px;margin:auto}
+nav button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:999px;font:inherit;font-size:.9rem;cursor:pointer}
+nav button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+main{max-width:720px;margin:auto;padding:0 16px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.card p{margin:6px 0}ul{padding-left:20px;margin:6px 0}li{margin:4px 0}
+.tag{display:inline-block;font-size:.75rem;background:var(--accent);color:#fff;border-radius:6px;padding:1px 7px;margin-right:6px}
+.mail{font-family:ui-monospace,Menlo,monospace;font-size:.85rem;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px;overflow-x:auto}
+.flag{color:var(--bad);font-weight:600;cursor:pointer;border-bottom:1px dotted var(--bad)}
+.flag.found{background:rgba(185,28,28,.15)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:10px 12px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;font:inherit;cursor:pointer}
+.opt.right{border-color:var(--ok);background:rgba(21,128,61,.15)}.opt.wrong{border-color:var(--bad);background:rgba(185,28,28,.15)}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;cursor:pointer}
+.fb{margin-top:8px;color:var(--muted)}.bar{height:6px;background:var(--line);border-radius:4px;margin-bottom:12px}.bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+</style>
+</head>
+<body>
+<header><h1>🎣 Phishing Awareness Training</h1><p class="sub">Learn to spot, avoid and report phishing. About 10 minutes.</p></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<script>
+var tabs=["What is it","Red flags","Tactics","Real cases","Stay safe","Quiz"];
+var cur=0;
+var pages=[
+'<div class="card"><h2>What is phishing?</h2><p>Phishing is a fake message (email, SMS, call or website) that pretends to be someone you trust so you reveal passwords, money or data, or install malware.</p></div>'+
+'<div class="card"><h2>Common types</h2><ul><li><b>Email phishing:</b> mass emails posing as banks, delivery firms or IT.</li><li><b>Spear phishing:</b> targeted at you, using your name, job or colleagues.</li><li><b>Whaling:</b> aimed at executives or finance staff.</li><li><b>Smishing / Vishing:</b> via SMS or phone calls.</li><li><b>Fake websites:</b> look-alike login pages that steal credentials.</li><li><b>QR phishing (quishing):</b> QR codes that lead to malicious pages.</li></ul></div>',
+null,
+'<div class="card"><h2>Social engineering tactics</h2><p>Attackers exploit emotions, not just technology:</p><ul><li><b>Urgency:</b> “Act within 24 hours or your account is closed.”</li><li><b>Fear:</b> “Suspicious login detected.”</li><li><b>Authority:</b> pretending to be the CEO, IT, police or a bank.</li><li><b>Greed / curiosity:</b> prizes, refunds, “see who viewed your profile”.</li><li><b>Helpfulness:</b> “Can you quickly buy gift cards for me?”</li><li><b>Pretexting:</b> an invented story, such as a new supplier or a fake recruiter.</li></ul></div>',
+'<div class="card"><span class="tag">2011</span><b>RSA breach</b><p>Staff received an email titled “2011 Recruitment plan” with an Excel attachment. Opening it installed malware that led to theft of security data.</p></div>'+
+'<div class="card"><span class="tag">2013</span><b>Target breach</b><p>Attackers phished a heating and cooling vendor, stole its credentials, and used them to reach Target’s network. Payment card data of millions was stolen.</p></div>'+
+'<div class="card"><span class="tag">2013–15</span><b>Google and Facebook invoice scam</b><p>A fraudster sent fake invoices from a real supplier’s name and tricked both companies into paying over $100 million in total.</p></div>'+
+'<div class="card"><span class="tag">2020</span><b>Twitter hack</b><p>Attackers phoned employees pretending to be IT support (vishing), got internal tool access, and took over high-profile accounts.</p></div>'+
+'<p class="fb">Lesson: even big security teams fall for well-crafted social engineering.</p>',
+'<div class="card"><h2>Best practices</h2><ul><li><b>Pause.</b> Urgent plus unexpected means suspicious.</li><li><b>Hover</b> over links (long-press on mobile) to see the real URL. Better: type the address yourself.</li><li><b>Verify</b> by contacting the sender through a known number or official site.</li><li>Never open unexpected attachments, especially .zip, .html, .exe or macro-enabled Office files.</li><li>Use a <b>password manager</b>: it will not autofill on a fake site.</li><li>Enable <b>MFA</b>, preferably an app or passkey rather than SMS.</li><li>Keep software and browsers updated.</li></ul></div>'+
+'<div class="card"><h2>If you clicked</h2><ol><li>Disconnect from the network if you opened a file.</li><li>Change the password on the real site and any site where you reused it.</li><li>Enable MFA and check for unfamiliar logins.</li><li>Report it to IT or security. Reporting fast limits the damage.</li><li>Forward the email to your provider’s phishing report address.</li></ol></div>',
+null];
+
+var flags=[
+["sender","Sender domain is “paypa1-security.com”, not PayPal."],
+["generic","“Dear Customer” is generic. Real companies usually use your name."],
+["urgent","Threat and deadline: “within 24 hours”."],
+["link","The link text says paypal.com but the real URL goes elsewhere."],
+["attach","Unexpected attachment: “Invoice.zip”."]];
+var found={};
+function flagsPage(){
+ var h='<div class="card"><h2>Spot the red flags</h2><p>Tap the suspicious parts of this email.</p><div class="mail">'+
+ 'From: PayPal Support &lt;<span class="flag" data-k="sender">service@paypa1-security.com</span>&gt;<br>Subject: Account limited!<br><br>'+
+ '<span class="flag" data-k="generic">Dear Customer,</span><br>We noticed unusual activity. <span class="flag" data-k="urgent">Verify your identity within 24 hours or your account will be closed.</span><br>'+
+ '<span class="flag" data-k="link">https://www.paypal.com/verify</span> (actually points to http://paypa1-security.com/login)<br>See attached: <span class="flag" data-k="attach">Invoice.zip</span></div>'+
+ '<p class="fb" id="ff">Found 0 of 5</p></div>'+
+ '<div class="card"><h2>More warning signs</h2><ul><li>Spelling and grammar mistakes</li><li>Requests for passwords, codes or payment</li><li>Look-alike domains (rn vs m, 0 vs o, extra words)</li><li>Fake sites without a valid domain, or odd login pages (a padlock alone does not prove safety)</li></ul></div>';
+ return h;
+}
+
+var qs=[
+["You get an email from “IT Support” asking you to reset your password via a link within 1 hour. Best action?",["Click the link quickly","Go to the official site yourself or call IT to check","Reply asking if it is real"],1,"Never use links in the message. Verify through a channel you already trust."],
+["Which URL is most likely genuine for Microsoft?",["microsoft-login.secure-verify.com","login.microsoftonline.com","microsoft.com.account-check.net"],1,"The real domain is the part just before the first single slash, read from the right. The others belong to secure-verify.com and account-check.net."],
+["Your “CEO” texts asking for urgent gift cards and to keep it secret. This is…",["Normal; do it","Likely a scam using authority and urgency","Safe if the number looks right"],1,"Secrecy plus urgency plus unusual payment is classic business email and smishing fraud."],
+["Which attachment is riskiest from an unknown sender?",["A .txt file","An .html or .zip file named Invoice","A plain image"],1,"Archives and HTML files often hide malware or fake login pages."],
+["You clicked a phishing link and typed your password. First step?",["Do nothing","Change the password from a safe device and report it","Delete the email only"],1,"Change the password immediately, enable MFA, and report it so others can be protected."],
+["What makes MFA useful against phishing?",["It stops all emails","A stolen password alone is not enough to log in","It hides your IP"],1,"MFA (especially passkeys) means a stolen password alone does not give access."]];
+var qi=0,score=0,done=false;
+
+function quizPage(){
+ if(qi>=qs.length){
+  var pct=Math.round(score/qs.length*100);
+  var msg=pct>=80?"Great work. You are phishing-aware! 🛡️":pct>=50?"Good start. Review the red flags and tactics.":"Review the module and try again.";
+  return '<div class="card"><h2>Result: '+score+' / '+qs.length+'</h2><p>'+msg+'</p><button class="btn" id="retry">Try again</button></div>';
+ }
+ var q=qs[qi],h='<div class="bar"><i style="width:'+(qi/qs.length*100)+'%"></i></div><div class="card"><p class="fb">Question '+(qi+1)+' of '+qs.length+'</p><h2>'+q[0]+'</h2>';
+ q[1].forEach(function(o,i){h+='<button class="opt" data-i="'+i+'">'+o+'</button>'});
+ return h+'<p class="fb" id="qf"></p><button class="btn" id="next" style="display:none">Next</button></div>';
+}
+
+function render(){
+ var m=document.getElementById("main");
+ m.innerHTML = cur===1?flagsPage():cur===5?quizPage():pages[cur];
+ var nav=document.getElementById("nav");nav.innerHTML="";
+ tabs.forEach(function(t,i){var b=document.createElement("button");b.textContent=t;if(i===cur)b.className="on";b.onclick=function(){cur=i;render();window.scrollTo(0,0)};nav.appendChild(b)});
+ if(cur===1){m.querySelectorAll(".flag").forEach(function(el){el.onclick=function(){
+  var k=el.dataset.k;if(found[k])return;found[k]=1;el.classList.add("found");
+  var f=flags.filter(function(x){return x[0]===k})[0];
+  el.title=f[1];
+  var n=Object.keys(found).length;
+  document.getElementById("ff").innerHTML="Found "+n+" of 5. "+f[1]+(n===5?" 🎉 All found!":"");}})}
+ if(cur===5){
+  var r=document.getElementById("retry");if(r)r.onclick=function(){qi=0;score=0;render()};
+  m.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){
+   if(done)return;done=true;var q=qs[qi],i=+b.dataset.i;
+   m.querySelectorAll(".opt").forEach(function(x,j){if(j===q[2])x.classList.add("right")});
+   if(i===q[2])score++;else b.classList.add("wrong");
+   document.getElementById("qf").textContent=(i===q[2]?"Correct. ":"Not quite. ")+q[3];
+   var n=document.getElementById("next");n.style.display="inline-block";
+   n.onclick=function(){qi++;done=false;render()}}});
+ }
+}
+render();
+</script>
+</body>
+</html>
