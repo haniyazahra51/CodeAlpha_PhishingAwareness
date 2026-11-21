@@ -14,7 +14,8 @@ Interactive phishing awareness training module built for the CodeAlpha Cyber Sec
 Open `index.html` in any web browser. No installation needed.
 
 ## Live demo
-https://haniyazahra51.github.io/CodeAlpha_PhishingAwareness/
+[Live Demo](https://haniyazahra51.github.io/CodeAlpha_PhishingAwareness/)
+
 
 ## Screenshots
 ![Red flags](ScreenShots/red-flags.png)
