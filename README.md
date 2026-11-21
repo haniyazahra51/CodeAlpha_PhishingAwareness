@@ -1,6 +1,6 @@
 # CodeAlpha_PhishingAwareness
 
-Interactive phishing awareness training module built for the CodeAlpha Cyber Security internship (Task 2) by Syeda Haniya Zahra.
+Interactive phishing awareness training module built for the CodeAlpha Cyber Security internship (Task 2) by Syeda Haniya Zahra
 
 ## What it covers
 - **What is phishing:** email, spear phishing, whaling, smishing, vishing, fake websites, QR phishing
@@ -14,10 +14,11 @@ Interactive phishing awareness training module built for the CodeAlpha Cyber Sec
 Open `index.html` in any web browser. No installation needed.
 
 ## Live demo
-[Add your GitHub Pages link here]
+https://haniyazahra51.github.io/CodeAlpha_PhishingAwareness/
 
 ## Screenshots
-Add images to the `screenshots/` folder.
+![Red flags](ScreenShots/red-flags.png)
+![Quiz results](ScreenShots/quiz-results.png)
 
 ## Built with
 HTML, CSS and JavaScript (single file, no dependencies).
